@@ -1,27 +1,35 @@
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class firstTest {
-    public static void main(String[] args){
-        System.setProperty("webdriver.chrome.driver","c://chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
+    private static WebDriver driver;
 
-        driver.get("http://www.pracuj.pl");
+    @Before
+    public void setUp(){
+        System.setProperty("webdriver.chrome.driver","drivers/chromedriver.exe");
+        driver = new ChromeDriver();
 
-        String actualTitle ="";
-
-        actualTitle = driver.getTitle();
-        System.out.println("NIZEJ BEDZIE TYTUL");
-        System.out.println("TUTAJ TYTUL STRONY:" + actualTitle);
-
-        if (actualTitle.contentEquals(  "Oferty pracy - Pracuj.pl")) {
-            System.out.println("Test Passed!");
-        } else {
-            System.out.println("Test Failed!");
-        }
+    }
+    @After
+    public void tearDown(){
+        driver.close();
+    }
+    @Test
+    public void CheckIfPracujPlTitleIsCorrect(){
 
 
+        String baseUrl = "http://www.pracuj.pl";
+        String actualTitle = "";
+        String expectedTitle = "Ofert pracy - Pracuj.pl";
 
-        driver.quit();
+        driver.get(baseUrl);
+
+        assertThat(driver.getTitle().contentEquals(expectedTitle));
+
 }
+
 }
